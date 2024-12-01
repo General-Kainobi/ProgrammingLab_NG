@@ -388,9 +388,30 @@ ad es: [ ['01-01-2012', '266.0'], ['01-02-2012', '145.9'], ... ]
 Provatelo sul file “shampoo_sales.csv”.
 Poi, scaricate il vostro script Python e testatelo su autograding
 p.s. il massimo punteggio è 9/10 con quello che abbiamo visto fino ad oggi a lezione.
+"""
+def ogg_es1():
+    class CsvFile():
+        def __init__(self,name):
+            self.name=name
+        def getdata(self):
+            d_list=[]
+            try:
+                with open(self.name, 'r') as file:
+                    for line in file:
+                            d_list.append(line.strip())
+            except:
+                print(" ERROR 404 FILE NOT FOUND")
+            d_list.pop(0) #Elimino il primo elemento che ci da la chiave del dataset(in quest caso è la lista[Data, Sales])
+            return d_list
+        def __str__(self):
+            return(self.name)
+    
+    shampoo_sales= CsvFile('shampoo_sales.csv')
+    data=shampoo_sales.getdata()
+    print(data)
+    return 0
 
-
-Esercizio 2: Classe Veicolo
+"""Esercizio 2: Classe Veicolo
 Scrivete una classe denominata Veicolo che disponga di questi attributi dati:
 ● modello (per il modello del veicolo);
 ● marca (per la marca del veicolo);
@@ -403,38 +424,60 @@ assegnare 0 all’attributo dati speed.
 ● accellerare che aggiunge 5 all’attributo dati speed ogni volta che viene chiamato.
 ● frenare che sottrae 5 dall’attributo dati speed ogni volta che viene chiamato.
 ● get_speed che restituisce la velocità corrente.
-
-
-Esercizio 3
-● Crea una sottoclasse auto che ha in aggiunta l'attributo numero_porte e
-cambia il metodo _str__ di conseguenza
-● Crea una sottoclasse moto che ha in aggiunta l'attributo tipo (ad esempio,
-"Sportiva" o "Touring") e cambia il metodo _str__ di conseguenza
-
 """
-def ogg_es1():
-    class CsvFile():
-        def __init__(self,nome):
-            self.nome=nome
-        def getdata(self):
-            list=[]
-            for line in self.nome:
-                list.append(line)
+def ogg_es2_3():
+    class Vehicle():
+        def __init__(self, modello, marca, anno):
+            self.speed=0
+            self.marca=marca
+            self.anno=anno
+            self.modello=modello
+        def __str__(self):
+            return (f"Marca: {self.marca}\nModello: {self.modello}\nAnno: {self.anno}\nSpeed: {self.speed}\n")
+        def accellerare(self):
+            self.speed+=5
+        def frena(self):
+            self.speed-=5
+        def get_speed(self):
+            return(f"La tua velocità è {self.speed} km/h\n") #se in una stringa voglio formattare al suo interno una variabile scrivo print(f'{variabile}') la f fuori serve per dire a python di formattare come stringa
+    """
+    Esercizio 3
+    ● Crea una sottoclasse auto che ha in aggiunta l'attributo numero_porte e
+    cambia il metodo _str__ di conseguenza
+    ● Crea una sottoclasse moto che ha in aggiunta l'attributo tipo (ad esempio,
+    "Sportiva" o "Touring") e cambia il metodo _str__ di conseguenza
 
-
+    """
+    class Auto(Vehicle):
+        def __init__(self,modello, marca, anno, num_porte):
+            super().__init__(self, modello, marca, anno) #Inizializzo con i valori della classe genitore
+            self.num_porte= num_porte
+        def __str__(self):
+            return (super().__str__()+f"Numero di porte: {self.num_porte}\n")
+    class Moto(Vehicle):
+        def __init__(self,modello, marca, anno, tipo):
+            super().__init__(self, modello, marca, anno)
+            self.tipo=tipo
+        def __str__(self):
+            return (super().__str__()+f"Tipologia: {self.tipo}\n")
     
 
 
 
 def main():
-    #lista=[1,4,3,3,6,3,1,2]
-    #print(noduplici(lista))
-    #es1(538)
-    #es2("ciaobellaciao", "a")
-    #print(es3("natan"))
-    #print(es8(lista))
-    #es2_2('shampoo_sales.csv')
-    pass
+    try:
+        #lista=[1,4,3,3,6,3,1,2]
+        #print(noduplici(lista))
+        #es1(538)
+        #es2("ciaobellaciao", "a")
+        #print(es3("natan"))
+        #print(es8(lista))
+        #es2_2('shampoo_sales.csv')
+        ogg_es1()
+        ogg_es2_3()
+
+    except:
+        pass
 
 if __name__ == '__main__':
     main()
