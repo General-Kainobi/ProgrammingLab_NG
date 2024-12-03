@@ -394,11 +394,14 @@ def ogg_es1():
         def __init__(self,name):
             self.name=name
         def getdata(self):
+            a_list=[]
             d_list=[]
             try:
                 with open(self.name, 'r') as file:
-                    for line in file:
-                            d_list.append(line.strip())
+                    for line in file():
+                        d_list.append("\n")
+                    for item in d_list:
+                        a_list.append(line.split(","))
             except:
                 print(" ERROR 404 FILE NOT FOUND")
             d_list.pop(0) #Elimino il primo elemento che ci da la chiave del dataset(in quest caso è la lista[Data, Sales])
@@ -462,6 +465,141 @@ def ogg_es2_3():
             return (super().__str__()+f"Tipologia: {self.tipo}\n")
     
 
+"""
+Gli errori in Python:
+    Errori si chiamano eccezioni --> exception
+        qualsiasi interruzione nel flusso di codice
+            segnalano la presenza di un problema che il programma deve gestire
+        non tutte le eccezioni sono propriamente errori
+    Exceptions
+        Delle classi che hanno diversi sotto-oggetti che estendono la classe base Exception. Queste sono built-in
+            Exception
+                ArithmeticError
+                    FloatingPointError
+                    ZeroDivisionError
+                AttributeError
+                SyntaxError
+                LookupError
+                    IndexError
+                    KeyError
+                SystemExit
+                KeyboardInterrupt
+    Traceback
+        Il traceback è un "report" automatico generato da python
+        Serve a verificare  dove è avvenuta l'eccezione e qual'era
+    Il costrutto try-except
+        Permette di gestire le eccezioni
+            try:
+                blocco in cui potrebbe verificarsi qualche eccezione
+            except[EccezioneTipo] [as e]:
+                Blocco che esegue al verificarsi proprio di EccezioneTipo
+                as e prende l'eccezzione col nome dato e lo si può usare come variabile e
+                se come EccezioneTipo  metto Exception allora si considerano tutte le eccezioni        
+            else:
+                Se try aveva ecccezione ma non era l'eccezione di except
+            finally:
+                eseguito indifferentemente da try-except
+        Else e finally sono utili per 'fare pulizia'
+    
+Estendete l’oggetto CSVFile chiamandolo NumericalCSVFile e facendo in modo che
+converta automaticamente a numero float tutte le colonne tranne la prima (della data).
+Chiamate la get_data originale con super().get_data(), poi converite tutto a float.
+A questo punto, aggiungete a mano questi due campi al file “shampoo_sales.csv”:
+"""
+def ogg_es23():
+    class CsvFile():
+        def __init__(self,name):
+            self.name=name
+        def getdata(self):
+            d_list=[]
+            try:
+                with open(self.name, 'r') as file:
+                    for line in file:
+                            d_list.append(line.strip())
+            except:
+                print(" ERROR 404 FILE NOT FOUND")
+            d_list.pop(0) #Elimino il primo elemento che ci da la chiave del dataset(in quest caso è la lista[Data, Sales])
+            return d_list
+        def __str__(self):
+            return(self.name)
+        
+    class NumericalsCsvFile(CsvFile):
+        def __init__(self):
+            self.file=open(self.name,'r')
+        def convertfloat(self, file):
+            with file:
+                data= super.getdata()
+                for item in data:
+                    try:
+                        item=float(item)
+                    except:
+                        print("errore, non convertibile a float")
+            return data
+    s=NumericalsCsvFile('shampoo_sales.csv')
+    print (s.convertfloat())
+
+
+def es23():
+    class CsvFile():
+        def __init__(self, name):
+            self.name=name
+        def getdata(self):
+            try:
+                a_list=[]
+                d_list=[]
+                with open(self.name, 'r') as filed:
+                    for line in filed:
+                        a_list.append(line.split(','))
+                    for item in a_list:
+                        d_list.append(item.split('\n'))
+            except Exception as e:
+                print("Errore: {}", format.e)
+            finally: 
+                (self.name).close
+                return d_list
+        def __str__(self):
+            return(self.name)
+    
+    s=CsvFile('shampoo_sales.csv')
+    data=s.getdata()
+    print(data)
+    return 0
+
+                                                                                                                         
+
+"""
+Input in python:
+    Funzione input() che sospende il prgramma e attende che l'utente inserisca da tastiera un valore
+        Ritorna una stringa
+        Per avere come input un valore numerico si usa il prefisso int(input), float(input), etc.
+    Potrebbero esserci casi di input inseriti che non ritornano errori ma vengono gestiti male
+        esempio il numero di righe da leggere deve essere di tipo intero non negativo
+    Controllo input
+        operatori classici (<,>,>= etc)
+        is None / is not None
+        item in list  che restituisce True o False
+        is type(nome var)=type che è booleano
+        isinstance(var, classe) 
+            controlla se la variabile appartiene alla classe o alle classe genitori
+        issubclass(classe, classegen)
+            bool che mi dice se una classe è sottoclasse di un'altra
+    Se l'input non è corretto:
+        1) stampare l'errore ed usare un default --> recoverable
+        2) stampare l'errore e uscire-->non recoverable 
+            Non so fa nelle funzioni e negli oggetti
+        3) Fare raise 
+            Si fa negli oggetti e funzioni
+        Raise:
+            raise Exception('ho avuto un errore, lo ha causato questo parametro: {} \n'format.parametro)
+        
+    
+
+
+
+
+"""
+
+
 
 
 def main():
@@ -473,8 +611,8 @@ def main():
         #print(es3("natan"))
         #print(es8(lista))
         #es2_2('shampoo_sales.csv')
-        ogg_es1()
-        ogg_es2_3()
+        #ogg_es1()
+        es23()
 
     except:
         pass
