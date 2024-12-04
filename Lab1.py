@@ -515,7 +515,7 @@ def ogg_es23():
             try:
                 with open(self.name, 'r') as file:
                     for line in file:
-                            d_list.append(line.strip())
+                            d_list.append(line.strip().split(','))
             except:
                 print(" ERROR 404 FILE NOT FOUND")
             d_list.pop(0) #Elimino il primo elemento che ci da la chiave del dataset(in quest caso è la lista[Data, Sales])
@@ -539,29 +539,45 @@ def ogg_es23():
     print (s.convertfloat())
 
 
-def es23():
+def es61():
     class CsvFile():
-        def __init__(self, name):
-            self.name=name
-        def getdata(self):
+        def __init__(self, name,start, end):
+            if type(name)!= str:
+                raise Exception(f"Error: File name must be of string type: you provided file name of type: {type(name)}\n")
+            else: 
+                self.name=name
+            if type(int(start))==int and type(int(end))==int:
+                self.start=int(start)
+                self.end=int(end)
+            else:
+                raise Exception(f"Invalid type of start or end range input, Expected Int or convertible, was given {type(start)} and {type(end)}")                       
+        def getdata(self, start=1, end=None):
             try:
-                a_list=[]
                 d_list=[]
                 with open(self.name, 'r') as filed:
-                    for line in filed:
-                        a_list.append(line.split(','))
-                    for item in a_list:
-                        d_list.append(item.split('\n'))
+                        try:
+                            if filed:    
+                                lines=filed.readlines()
+                                mas=len(lines)
+                                if end==None: end=mas-1
+                                if end<mas and start>0 and start<end:
+                                    for line in lines:
+                                        d_list = [line.strip().split(',') for line in lines[start-1:end]]
+                                else:
+                                        raise Exception(f"Error: Invalid number of lines\n You provided range from {start} to {end} but file only has 0-{mas} lines")     
+                            else:
+                                raise Exception(f"Error: File {self.name} is empty")
+                        except Exception as e:
+                            print (f"Error {e} \n")
             except Exception as e:
-                print("Errore: {}", format.e)
+                print("Errore: {}", format(e))
             finally: 
-                (self.name).close
                 return d_list
         def __str__(self):
             return(self.name)
     
-    s=CsvFile('shampoo_sales.csv')
-    data=s.getdata()
+    s=CsvFile('Data/shampoo_sales.csv', 1, 5)
+    data=s.getdata(1,5)
     print(data)
     return 0
 
@@ -595,10 +611,10 @@ Input in python:
     
 
 
-
+Testing:
+    
 
 """
-
 
 
 
@@ -612,7 +628,7 @@ def main():
         #print(es8(lista))
         #es2_2('shampoo_sales.csv')
         #ogg_es1()
-        es23()
+        es61()
 
     except:
         pass
