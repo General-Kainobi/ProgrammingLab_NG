@@ -7,7 +7,8 @@ Author: Natan Giassi
 import math 
 import random
 import os
-
+#import numpy
+#import matplotlib
 #Costruire una funzione che dato un array rimuove i duplicati e ne crea un alista con solo uno dei val. indicati
 def noduplici(lista):
     noduplic=[]
@@ -541,7 +542,7 @@ def ogg_es23():
 
 def es61():
     class CsvFile():
-        def __init__(self, name,start, end):
+        def __init__(self, name, start, end):
             if type(name)!= str:
                 raise Exception(f"Error: File name must be of string type: you provided file name of type: {type(name)}\n")
             else: 
@@ -551,7 +552,7 @@ def es61():
                 self.end=int(end)
             else:
                 raise Exception(f"Invalid type of start or end range input, Expected Int or convertible, was given {type(start)} and {type(end)}")                       
-        def getdata(self, start=1, end=None):
+        def getdata(self, start=2, end=None):
             try:
                 d_list=[]
                 with open(self.name, 'r') as filed:
@@ -560,7 +561,7 @@ def es61():
                                 lines=filed.readlines()
                                 mas=len(lines)
                                 if end==None: end=mas-1
-                                if end<mas and start>0 and start<end:
+                                if end<=mas and start>0 and start<end:
                                     for line in lines:
                                         d_list = [line.strip().split(',') for line in lines[start-1:end]]
                                 else:
@@ -577,7 +578,7 @@ def es61():
             return(self.name)
     
     s=CsvFile('Data/shampoo_sales.csv', 1, 5)
-    data=s.getdata(1,5)
+    data=s.getdata(1)
     print(data)
     return 0
 
@@ -608,11 +609,19 @@ Input in python:
         Raise:
             raise Exception('ho avuto un errore, lo ha causato questo parametro: {} \n'format.parametro)
         
-    
-
-
+--------------------------------------------------------------------------
 Testing:
-    
+    la funzione assert per i test:
+        Serve a testare velocemente varie condizioni tra output noti dato un input e la funzione con quell'input
+            es. assertEqual(funzione(), valore)
+    Metodo setup()
+
+----------------------------------------------------------------------
+Libreria:
+    Numpy:
+        Per compiere operazioni matematiche
+    Matplotlib:
+        Per creare e usare grafici
 
 """
 
