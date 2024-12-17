@@ -65,6 +65,66 @@ List Comprehension:
             '    
 """
 
+class Flusso:
+    def __init__(self, x,y,z):
+        self.x=x
+        self.y=y
+        self.z=z
+    
+    def __iter__(self):
+        return self
+    def __next__(self):
+        if(self.x>self.y):
+            raise StopIteration
+        self.x += self.z
+        return self.x-self.z
+#[print(i) for i in Flusso(1,10,1)]
+    
+
+
+def numprimo(n):
+    for i in range(2,n):
+        if (n%i==0):
+            return 0
+    return 1
+
+class NumPrimi:
+    def __init__(self, lista):
+        l=[]
+        for item in lista:
+            if numprimo(item)==1:
+                l.append(item)
+        self.index=0
+        self.l=l
+    def __iter__(self):
+        return self
+    def __next__(self):
+        self.index+=1
+        if self.index+1>len(self.l):
+            raise StopIteration
+        return self.l[self.index-1]
+        
+a=[1,2,3,3,5,6,7,8,9,10] 
+#[print(i) for i in NumPrimi(a)]
+
+class Discre():
+    def __init__(self,a,b, n):
+        self.a=a
+        self.c=a
+        self.n=n
+        self.delta=(b-a)/(n-1)
+    def __iter__(self):
+        return self
+    def __next__(self):
+        self.c+=1
+        if self.c>=self.n:
+            raise StopIteration
+        return (self.a+(self.c-1)*self.delta)**2
+        
+[print(i) for i in Discre(0,2,5)]    
+
+
+"""
 class PotDue:
     def __init__(self,p,e):
         self.p=2**p
@@ -79,3 +139,5 @@ class PotDue:
             return self.p-1
 for x in PotDue(6,8):
     print(x)
+"""
+
