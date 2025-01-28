@@ -140,18 +140,18 @@ class FitTrendModel(ModelTrend):
     def predict(self, data):
         return data[-1] +self.history_var#+self.window_val)/2
 
-data=[8,19,31,41,50,52,60]
+data=[8,19,31,41,50,52,60,67,72,72]
 
 # FitTrendModel 
 fit_model = FitTrendModel()
 data1=data.copy()
 for i in range(10):
-    model_trend = ModelTrend(window=5)
+    model_trend = ModelTrend(window=3)
     prediction_trend = model_trend.predict(data)
     print("ModelTrend Prediction:", prediction_trend)
     data.append(prediction_trend)
     #-----
-    fit_model.fit(data1, window=5)
+    fit_model.fit(data1, window=3)
     prediction = fit_model.predict(data1)
     print("FitTrendModel Prediction:", prediction)
     data1.append(prediction)
