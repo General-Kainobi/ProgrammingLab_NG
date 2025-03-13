@@ -4,6 +4,8 @@ import os
 
 class ExamException(Exception):
     pass
+
+
 class CSVTimeSeriesFile():
     def __init__(self,name):
         self.name= name
@@ -19,10 +21,8 @@ class CSVTimeSeriesFile():
             elemento=line.split(',')
             series.append(elemento)
         for lista in series:
-            if len(lista)==2:
-                if lista[1]=='':
-                    series.remove(lista)
-                else: lista[1]=int(lista[1])
+            if len(lista)==2 and lista[1]!='':
+                lista[1]=int(lista[1])
         file.close()
         return series[:-1]
 
@@ -45,10 +45,11 @@ def compute_var(time_series, first_year, last_year):
     #return medie
         for i in range(0,len(medie)-1):
             diff=medie[i+1]-medie[i]
-            dic[current]=round(diff, 3)
+            dic[current]=diff
     return dic
 
-time_series_file = CSVTimeSeriesFile(name='datax.csv')
+
+time_series_file = CSVTimeSeriesFile(name='data.csv')
 time_series = time_series_file.get_data()
 #print(time_series)
 dictionary=compute_var(time_series, 1949,1960)

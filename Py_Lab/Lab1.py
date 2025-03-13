@@ -131,7 +131,7 @@ I file CSV:
 
     Lavorare con i file csv:
     1) Vogliamo lavorare con numeri separati quindi usiamo riga.split(',') che separa in ogni riga i valori separati tra loro dalla virgola
-    2) Covertare la stringa in un valore numerico(float, intero etc)//ovviamente la stringa deve essere un numero
+    2) Convertire la stringa in un valore numerico(float, intero etc)//ovviamente la stringa deve essere un numero
     3) Aggiungere ad una lista il valore della riga usando .append()
     Esempio:
         # Inizializzo una lista vuota per salvare i valori
